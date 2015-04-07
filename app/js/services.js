@@ -3749,7 +3749,8 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
   }
 })
 
-.service('RichTextProcessor', function ($sce, $sanitize, $marked) {
+.service('RichTextProcessor', function ($sce, $sanitize) {
+//.service('RichTextProcessor', function ($sce, $sanitize, $marked) {
 
   var emojiMap = {},
       emojiData = Config.Emoji,
@@ -3825,6 +3826,10 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
   var soundcloudRegex = /^https?:\/\/(?:soundcloud\.com|snd\.sc)\/([a-zA-Z0-9%\-\_]+)\/([a-zA-Z0-9%\-\_]+)/i;
   var spotifyRegex = /(https?:\/\/(open\.spotify\.com|play\.spotify\.com|spoti\.fi)\/(.+)|spotify:(.+))/i;
    
+  var oldSchoolEmojisMap = [
+    { asciis: [':-)', ':)'], unicode: 0x1F60A},
+    { asciis: [':O', ':-o'], unicode: 0x1F631}
+  ] ;
 
   return {
     wrapRichText: wrapRichText,
@@ -3860,8 +3865,9 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
         emojiFound = false,
         emojiTitle,
         emojiCoords;
-
+        console.log(raw);
     // var start = tsNow();
+    raw = replaceOldSchoolWesternEmojis (raw) ;
 
     while ((match = raw.match(regExp))) {
       html.push(encodeEntities(raw.substr(0, match.index)));
@@ -4009,13 +4015,64 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
       text = text.replace(/<span class="emoji emoji-(\d)-(\d+)-(\d+)"(.+?)<\/span>/g,
                           '<span class="emoji emoji-spritesheet-$1" style="background-position: -$2px -$3px;" $4</span>');
     }
-    text = formatMarkdown (text) ;
+    //text = formatMarkdown (text) ;
 
     return $sce.trustAs('html', text);
   }
 
   function formatMarkdown (text) {
     return $marked(text) ;
+  }
+
+  function toUTF16(codePoint) {
+      var TEN_BITS = parseInt('1111111111', 2);
+      function u(codeUnit) {
+          return '\\u'+codeUnit.toString(16).toUpperCase();
+          //return String.fromC codeUnit.toString(16).toUpperCase();
+      }
+
+      if (codePoint <= 0xFFFF) {
+          return u(codePoint);
+      }
+      codePoint -= 0x10000;
+      
+      // Shift right to get to most significant 10 bits
+      var leadSurrogate = 0xD800 + (codePoint >> 10);
+
+      // Mask to get least significant 10 bits
+      var tailSurrogate = 0xDC00 + (codePoint & TEN_BITS);
+
+      return u(leadSurrogate) + u(tailSurrogate);
+  }
+
+function utf16Encode(input) {
+    var output = [], i = 0, len = input.length, value;
+    while (i < len) {
+        value = input[i++];
+        if ( (value & 0xF800) === 0xD800 ) {
+            throw new RangeError("UTF-16(encode): Illegal UTF-16 value");
+        }
+        if (value > 0xFFFF) {
+            value -= 0x10000;
+            output.push(String.fromCharCode(((value >>>10) & 0x3FF) | 0xD800));
+            value = 0xDC00 | (value & 0x3FF);
+        }
+        output.push(String.fromCharCode(value));
+    }
+    return output.join("");
+}
+  function replaceOldSchoolWesternEmojis (text) {
+    for (var i= 0 ; i < oldSchoolEmojisMap.length ; i++ ) {
+      var row = oldSchoolEmojisMap[i] ;
+      for (var j = 0 ; j < row.asciis.length ; j++ ) {
+        //text = text.replace (row.asciis[j], String.fromCharCode(row.unicode)) ;
+        // text = text.replace (row.asciis[j], (row.unicode)) ;
+        var point = utf16Encode([row.unicode]) ;
+        text = text.replace (row.asciis[j], point) ;
+      }
+    }
+    return text ;
+
   }
 
   function checkBrackets(url) {
