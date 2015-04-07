@@ -7,7 +7,7 @@
   max-width: 1010px;
   margin: 0 auto;
   height: 48px;
-  background: #5682a3;
+  background: #3f4773;
 }
 .tg_head_logo_wrap {
   float: left;
@@ -30,7 +30,7 @@
 .tg_head_btn:hover {
   color: #fff;
   text-decoration: none;
-  background: #497799;
+  background: #2d3352;
 }
 .dropdown.open .tg_head_btn {
   position: relative;
@@ -159,7 +159,7 @@
   font-size: 12px;
   line-height: 21px;
   padding: 11px 19px 10px 21px;
-  color: #42749b;
+  color: #3a3b45;
 }
 .tg_head_logo_dropdown .dropdown-menu > li > a:hover {
   background: #f2f6fa;
@@ -279,7 +279,7 @@
   font-size: 13px;
   line-height: 15px;
   padding: 11px 18px 11px 18px;
-  color: #52719a;
+  color: #3a3b45;
 }
 .tg_head_peer_dropdown .dropdown-menu > li > a:hover {
   background: #f3f6fa;
@@ -498,7 +498,7 @@ a.footer_lang_link.active:hover,
 a.footer_lang_link.active:active,
 a.footer_link.active:hover,
 a.footer_link.active:active {
-  color: #8499aa;
+  color: #3f3f3f;
   text-decoration: none;
 }
 .footer_link_divider {
@@ -633,7 +633,7 @@ a.footer_link.active:active {
 }
 .contacts_modal_members_list .active a.contacts_modal_contact,
 .contacts_modal_members_list .active a.contacts_modal_contact:hover {
-  background: #6490b1;
+  background: #515b94;
   color: #fff;
 }
 .contacts_modal_members_list .active a.contacts_modal_contact .md_modal_list_peer_description,
@@ -749,7 +749,7 @@ a.footer_link.active:active {
 .im_history_selectable .im_message_outer_wrap:hover .im_message_audio_duration,
 .im_history_selectable .im_message_outer_wrap:hover .im_message_audio_size,
 .im_history_selectable .im_message_outer_wrap:hover .im_message_fwd_date {
-  color: #899daf;
+  color: #3f3f3f;
 }
 .im_content_message_select_area {
   display: none;
