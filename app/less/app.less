@@ -176,7 +176,7 @@ input[type="number"] {
 }
 
 .btn-link {
-  color: #3a6d99;
+  color:@button-color;
   text-decoration: none !important;
   border-radius: 3px;
   overflow: hidden;
@@ -668,7 +668,7 @@ a.tg_checkbox {
   }
 
   &.tg_checkbox_on i.icon-checkbox-inner {
-    background: #6b9bc2;
+    background: @radio-background-color;
     margin-left: 16px;
     border: 0;
 
@@ -738,7 +738,7 @@ i.icon-radio {
   border-color: #5c8db3;
 }
 .tg_radio.tg_radio_on i.icon-radio {
-  background-color: #6b9bc2;
+  background-color: @radio-background-color;
 }
 a.tg_radio:hover i.icon-radio {
   background-color: #f2f2f2;
@@ -776,7 +776,7 @@ a.tg_radio_on:hover i.icon-radio {
 .tg_slider_thumb {
   position: absolute;
   border: 0;
-  background: #6b9bc2;
+  background: @radio-background-color;
   width: 18px;
   height: 18px;
   border-radius: 9px;
@@ -1177,7 +1177,7 @@ i.icon-search-clear {
 .im_dialog_chat_from_wrap,
 .im_dialog_message_media,
 .im_dialog_message_service {
-  color: #3a6d99;
+  color:@button-color;
 }
 .im_dialog_message_text {
   color: #808080;
@@ -1186,7 +1186,7 @@ i.icon-search-clear {
 a.im_dialog:hover,
 a.im_dialog_selected {
   .im_dialog_message_text {
-    color: #698192;
+    color: @message-color;
   }
 }
 
@@ -1332,7 +1332,7 @@ a.im_dialog_selected {
 }
 .im_message_author,
 .im_message_fwd_author {
-  color: #3a6d99;
+  color:@button-color;
   font-weight: bold;
 }
 .non_osx .im_message_author,
@@ -1618,7 +1618,7 @@ img.im_message_document_thumb {
   width: 265px;
 }
 .im_message_document_name {
-  color: #3a6d99;
+  color:@button-color;
   display: inline-block;
   font-weight: bold;
   max-width: 170px;
@@ -1887,7 +1887,7 @@ div.im_message_body {
 }
 .im_message_reply_author {
   font-weight: bold;
-  color: #3a6d99;
+  color:@button-color;
   line-height: 16px;
   margin-bottom: 3px;
 }
@@ -2341,7 +2341,7 @@ a.composer_emoji_btn {
 .composer_dropdown {
   li a:hover .composer_user_mention,
   li a.composer_autocomplete_option_active .composer_user_mention {
-    color: #698192;
+    color: @message-color;
   }
 }
 
@@ -2779,7 +2779,7 @@ a.contacts_modal_contact:hover .md_modal_list_peer_description,
   .audio_player_duration,
   .audio_player_size,
   .im_message_fwd_date {
-    color: #899daf;
+    color: @message-selected-color;
   }
 }
 
@@ -2942,7 +2942,7 @@ a.countries_modal_search_clear {
   color: #999;
 
   .countries_scrollable_wrap a.countries_modal_country:hover & {
-    color: #698192;
+    color: @message-color;
   }
 }
 
@@ -3429,7 +3429,7 @@ a.countries_modal_search_clear {
 
     &.status_online,
     .status_online {
-      color: #3a6d99;
+      color:@button-color;
     }
   }
 }
