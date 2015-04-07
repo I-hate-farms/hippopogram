@@ -878,6 +878,7 @@ angular.module('myApp.controllers', ['myApp.i18n'])
     $scope.selectedDelete = selectedDelete;
     $scope.selectedForward = selectedForward;
     $scope.selectedReply = selectedReply;
+    $scope.selectedEdit = selectedEdit;    
     $scope.selectedCancel = selectedCancel;
     $scope.selectedFlush = selectedFlush;
 
@@ -1354,6 +1355,17 @@ angular.module('myApp.controllers', ['myApp.i18n'])
         $scope.$broadcast('reply_selected', selectedMessageID);
       }
     }
+    
+    function selectedEdit () {
+      if ($scope.selectedCount == 1) {
+        var selectedMessageID;
+        angular.forEach($scope.selectedMsgs, function (t, messageID) {
+          selectedMessageID = messageID;
+        });
+        selectedCancel();
+        $scope.$broadcast('reply_edited', selectedMessageID);
+      }
+    }
 
     function toggleEdit () {
       if ($scope.historyState.selectActions) {
@@ -1531,6 +1543,11 @@ angular.module('myApp.controllers', ['myApp.i18n'])
     $scope.$on('reply_selected', function (e, messageID) {
       replySelect(messageID);
     });
+    $scope.$on('reply_edited', function (e, messageID) {
+      // replySelect(messageID);
+      console.log ('edited: '+  messageID) ;
+    });
+
     $scope.$on('ui_typing', onTyping);
 
     $scope.draftMessage = {text: '', send: sendMessage, replyClear: replyClear};

@@ -23,9 +23,10 @@ angular.module('myApp', [
   'myApp.templates',
   PRODUCTION_ONLY_END*/
   'myApp.directives',
-  'myApp.controllers'
+  'myApp.controllers',
+  'hc.marked'
 ]).
-config(['$locationProvider', '$routeProvider', '$compileProvider', 'StorageProvider', function($locationProvider, $routeProvider, $compileProvider, StorageProvider) {
+config(['$locationProvider', '$routeProvider', '$compileProvider', 'StorageProvider', 'markedProvider', function($locationProvider, $routeProvider, $compileProvider, StorageProvider, markedProvider) {
 
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|filesystem|chrome-extension|app):|data:image\//);
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|file|mailto|blob|filesystem|chrome-extension|app):|data:/);
@@ -39,5 +40,5 @@ config(['$locationProvider', '$routeProvider', '$compileProvider', 'StorageProvi
   $routeProvider.when('/im', {templateUrl: templateUrl('im'), controller: 'AppIMController', reloadOnSearch: false});
   $routeProvider.otherwise({redirectTo: '/'});
 
-  //markedProvider.setOptions({gfm: true});
+  markedProvider.setOptions({gfm: true});
 }]);
