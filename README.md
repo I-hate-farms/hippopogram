@@ -4,9 +4,9 @@
 
 Features: 
   - support markdown syntax using [marked](https://github.com/chjj/marked) *in progress*
-  - replace text emoticons :) :-o with images ones :smile: *in progress*
+  - replace text emoticons :) :-o with images ones :smile: **done**
   - enable sent message editing *planned*
-  - better link management (link to images, imgur, etc) *in progress*
+  - better link management (link to images, imgur, etc) *planned*
 
 For more information about webogram, read the [original documentation](README-ori.md)
 
@@ -16,6 +16,7 @@ For more information about webogram, read the [original documentation](README-or
 git clone https://github.com/I-hate-farms/hippopogram.git
 cd hippopogram
 npm install 
+make package
 make build
 node server.js
 
