@@ -1,6 +1,6 @@
-## [Hippopogram](http://i-hate-farms.github.io/hippopogram): a loving fork of Telegram for the web
+## [Hippopogram](http://i-hate-farms.github.io/hippopogram) a loving fork of webogram
 
-[Hippopogram](http://i-hate-farms.github.io/hippopogram) adds featured to our beloved webogram, the web application for telegram
+[Hippopogram](http://i-hate-farms.github.io/hippopogram) adds featured to our beloved [webogram](https://github.com/zhukov/webogram), the web application for telegram
 
 Features: 
   - support markdown syntax using [marked](https://github.com/chjj/marked) *in progress*
@@ -14,4 +14,13 @@ For more information about webogram, read the [original documentation](README-or
 
 ``` 
 git clone https://github.com/I-hate-farms/hippopogram.git
+cd hippopogram
+npm install 
+make build
+node server.js
+
 ```
+
+open http://localhost:8000/app/index.html
+
+## How to publish 

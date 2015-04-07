@@ -3749,7 +3749,7 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
   }
 })
 
-.service('RichTextProcessor', function ($sce, $sanitize) {
+.service('RichTextProcessor', function ($sce, $sanitize, $marked) {
 
   var emojiMap = {},
       emojiData = Config.Emoji,
@@ -3824,7 +3824,7 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
   var gplusRegex = /^https?:\/\/plus\.google\.com\/\d+\/posts\/[a-zA-Z0-9\-\_]+/i;
   var soundcloudRegex = /^https?:\/\/(?:soundcloud\.com|snd\.sc)\/([a-zA-Z0-9%\-\_]+)\/([a-zA-Z0-9%\-\_]+)/i;
   var spotifyRegex = /(https?:\/\/(open\.spotify\.com|play\.spotify\.com|spoti\.fi)\/(.+)|spotify:(.+))/i;
-
+   
 
   return {
     wrapRichText: wrapRichText,
@@ -3993,7 +3993,6 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
       }
       raw = raw.substr(match.index + match[0].length);
     }
-
     html.push(encodeEntities(raw));
 
     // var timeDiff = tsNow() - start;
@@ -4010,8 +4009,13 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
       text = text.replace(/<span class="emoji emoji-(\d)-(\d+)-(\d+)"(.+?)<\/span>/g,
                           '<span class="emoji emoji-spritesheet-$1" style="background-position: -$2px -$3px;" $4</span>');
     }
+    text = formatMarkdown (text) ;
 
     return $sce.trustAs('html', text);
+  }
+
+  function formatMarkdown (text) {
+    return $marked(text) ;
   }
 
   function checkBrackets(url) {

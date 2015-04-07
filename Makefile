@@ -16,6 +16,8 @@ publish:
 bump:
 	./node_modules/gulp/bin/gulp.js bump
 
+build:
+	./node_modules/gulp/bin/gulp.js build
 
 txinstall:
 	curl -O https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py
