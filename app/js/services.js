@@ -3825,10 +3825,92 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
   var gplusRegex = /^https?:\/\/plus\.google\.com\/\d+\/posts\/[a-zA-Z0-9\-\_]+/i;
   var soundcloudRegex = /^https?:\/\/(?:soundcloud\.com|snd\.sc)\/([a-zA-Z0-9%\-\_]+)\/([a-zA-Z0-9%\-\_]+)/i;
   var spotifyRegex = /(https?:\/\/(open\.spotify\.com|play\.spotify\.com|spoti\.fi)\/(.+)|spotify:(.+))/i;
-   
+  
+  // http://stackoverflow.com/q/29488143/740464 
   var oldSchoolEmojisMap = [
-    { asciis: [':-)', ':)'], unicode: 0x1F60A},
-    { asciis: [':O', ':-o'], unicode: 0x1F631}
+
+    // Smiley or happy face.[4][5][6]
+    { asciis: [':-)', ':)', ':D', ':o)', ':]', ':3', ':c)', ':>', '=]', '8)', '=)', ':}', ':^)', ':っ)'], unicode: 0x1F60A},
+    
+    // Laughing,[4] big grin,[5][6] laugh with glasses[7]
+    { asciis: [':-D', '8-D', '8D', 'x-D', 'xD', 'X-D', 'XD', '=-D', '=D', '=-3', '=3', 'B^D'], unicode: 0x1F601},
+    
+    //Very happy or double chin[7]
+    { asciis: [':-))'], unicode: 0x1F604},
+    
+    // Frown,[4][5][6] sad[8]
+    { asciis: ['>:[', ':-(', ':(', ':-c', ':c', ':-<',  ':っC', ':<', ':-[', ':[', ':{'], unicode: 0x1F61E},
+    
+    // Winky frowny, used to signify sadness, with a bit of sarcasm. It is easily misunderstood.[9]
+    { asciis: [';('], unicode: 0x1F62B},
+    
+    // Angry[7]
+    { asciis: [':-||', ':@', '>:('], unicode: 0x1F620},
+    
+    // Crying[8]
+    { asciis: [':\'-(', ':\'('], unicode: 0x1F622},
+    
+    // Tears of happiness[8]
+    { asciis: [':\'-)', ':\')'], unicode: 0x1F602},
+    
+    // Horror, disgust, sadness, great dismay[5][6]
+    { asciis: ['D:<', 'D:', 'D8', 'D;', 'D=', 'DX', 'v.v', 'D-\\\':'], unicode: 0x1F631},
+    
+    //    Surprise,[3] shock,[4][10] yawn[11]
+    { asciis: ['>:O', ':-O', ':O', ':-o', ':o', '8-0', 'O_O', 'o-o', 'O_o', 'o_O', 'o_o', 'O-O'], unicode: 0x1F632},
+    
+    // Kiss, couple kissing[7]
+    { asciis: [':*', ':^*', '( \'}{\' )'], unicode: 0x1F618},
+    
+    // Wink,[4][5][6] smirk[10][11]
+    { asciis: [';-)', ';)', '*-)', '*)', ';-]', ';]', ';D', ';^)', ':-,'], unicode: 0x1F609},
+    
+    // Tongue sticking out, cheeky/playful,[4] blowing a raspberry
+    { asciis: ['>:P', ':-P', ':P', 'X-P', 'x-p', 'xp', 'XP', ':-p', ':p', '=p', ':-Þ', ':Þ', ':þ', ':-þ', ':-b', ':b', 'd:'], unicode: 0x1F60B},
+    
+    // Skeptical, annoyed, undecided, uneasy, hesitant[4]
+    { asciis: [ '>:\\', '>:/', ,':-/', ':-.', ':/', ':\\', '=/', '=\\', ':L', '=L', ':S', '>.<'], unicode: 0x1F614},
+
+    //    Straight face[5] no expression, indecision[8]
+    { asciis: [':|', ':-|'], unicode: 0x1F61E},
+
+    // Embarrassed,[6] blushing[7]
+    { asciis: [':$'], unicode: 0x1F633},
+
+    // Angel,[4][5][10] saint,[8] innocent
+    // { asciis: ['O:-)' '0:-3' '0:3' '0:-)' '0:)' '0;^')], unicode: 0x},
+
+    // Evil[5]
+    // { asciis: ['>:)', '>;)', '>:-')], unicode: 0x},
+
+    // Devilish[8]
+    // { asciis: ['}:-)', '}:)', '3:-)', '3:)'], unicode: 0x},
+
+    // High five[11]
+    // { asciis: ['o/\\o', '^5', '>_>^ ^<_<'], unicode: 0x},
+
+    // Cool,[8] bored/yawning[10]
+    { asciis: ['|;-)', '|-O'], unicode: 0x1F60E},
+
+    // Tongue-in-cheek[12]
+    { asciis: [':-J'], unicode: 0x1F60F}
+
+    // Tongue-tied[8]
+    // { asciis: [':-&' ':&'], unicode: 0x},
+
+    // Partied all night[8]
+    // { asciis: ['#-)'], unicode: 0x},
+
+    // Drunk,[8] confused
+    //{ asciis: ['%-)', '%)'], unicode: 0x},
+
+    // Dumb, dunce-like
+    // { asciis: ['<:-|'], unicode: 0x},
+
+    // Cheer "Yay, yay.
+    //{ asciis: ['\\o/'], unicode: 0x}
+
+
   ] ;
 
   return {
@@ -3865,7 +3947,7 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
         emojiFound = false,
         emojiTitle,
         emojiCoords;
-        console.log(raw);
+
     // var start = tsNow();
     raw = replaceOldSchoolWesternEmojis (raw) ;
 
@@ -4023,29 +4105,8 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
   function formatMarkdown (text) {
     return $marked(text) ;
   }
-
-  function toUTF16(codePoint) {
-      var TEN_BITS = parseInt('1111111111', 2);
-      function u(codeUnit) {
-          return '\\u'+codeUnit.toString(16).toUpperCase();
-          //return String.fromC codeUnit.toString(16).toUpperCase();
-      }
-
-      if (codePoint <= 0xFFFF) {
-          return u(codePoint);
-      }
-      codePoint -= 0x10000;
-      
-      // Shift right to get to most significant 10 bits
-      var leadSurrogate = 0xD800 + (codePoint >> 10);
-
-      // Mask to get least significant 10 bits
-      var tailSurrogate = 0xDC00 + (codePoint & TEN_BITS);
-
-      return u(leadSurrogate) + u(tailSurrogate);
-  }
-
-function utf16Encode(input) {
+  
+  function utf16Encode(input) {
     var output = [], i = 0, len = input.length, value;
     while (i < len) {
         value = input[i++];
@@ -4060,7 +4121,8 @@ function utf16Encode(input) {
         output.push(String.fromCharCode(value));
     }
     return output.join("");
-}
+  }
+  
   function replaceOldSchoolWesternEmojis (text) {
     for (var i= 0 ; i < oldSchoolEmojisMap.length ; i++ ) {
       var row = oldSchoolEmojisMap[i] ;
