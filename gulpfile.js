@@ -23,10 +23,10 @@ gulp.task('templates', function() {
 });
 
 gulp.task('usemin', ['templates', 'enable-production'], function() {
-  return gulp.src(['app/index.html', 'app/badbrowser.html'])
+  return gulp.src(['app/index.html', 'app/badbrowser.html'])  
     .pipe($.usemin({
       html: [$.minifyHtml({empty: true})],
-      js: ['concat', $.ngAnnotate(), $.uglify({outSourceMap: false})],
+      js: ['concat', $.ngAnnotate() ],
       css: ['concat', $.minifyCss({compatibility: true, keepBreaks: true})]
     }))
     .pipe(gulp.dest('dist'));
@@ -254,6 +254,12 @@ gulp.task('build', function(callback) {
     ['copy', 'copy-locales', 'copy-images', 'disable-production'],
     callback
   );
+  /*runSequence(
+    'less',
+    'usemin',
+    ['copy', 'copy-locales', 'copy-images', 'disable-production'],
+    callback
+  );*/
 });
 
 gulp.task('package', ['cleanup-dist']);

@@ -23,8 +23,7 @@ angular.module('myApp', [
   'myApp.templates',
   PRODUCTION_ONLY_END*/
   'myApp.directives',
-  'myApp.controllers',
-  'hc.marked'
+  'myApp.controllers'
 ]).
 config(['$locationProvider', '$routeProvider', '$compileProvider', 'StorageProvider', 'markedProvider', function($locationProvider, $routeProvider, $compileProvider, StorageProvider, markedProvider) {
 
