@@ -3749,7 +3749,7 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
   }
 })
 
-.service('RichTextProcessor', function ($sce, $sanitize) {
+.service('RichTextProcessor', function ($sce, $sanitize, marked) {
 //.service('RichTextProcessor', function ($sce, $sanitize, $marked) {
 
   var emojiMap = {},
@@ -3951,6 +3951,8 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     // var start = tsNow();
     raw = replaceOldSchoolWesternEmojis (raw) ;
 
+
+
     while ((match = raw.match(regExp))) {
       html.push(encodeEntities(raw.substr(0, match.index)));
 
@@ -4081,7 +4083,9 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
       }
       raw = raw.substr(match.index + match[0].length);
     }
-    html.push(encodeEntities(raw));
+    var encoded = encodeEntities(raw) ;
+    // encoded = formatMarkdown (encoded) ;    
+    html.push(encoded);
 
     // var timeDiff = tsNow() - start;
     // if (timeDiff > 1) {
@@ -4089,7 +4093,7 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     // }
 
     text = $sanitize(html.join(''));
-
+    text = formatMarkdown (text) ; 
     // console.log(3, text, html);
 
     if (emojiFound) {
@@ -4097,13 +4101,14 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
       text = text.replace(/<span class="emoji emoji-(\d)-(\d+)-(\d+)"(.+?)<\/span>/g,
                           '<span class="emoji emoji-spritesheet-$1" style="background-position: -$2px -$3px;" $4</span>');
     }
-    //text = formatMarkdown (text) ;
 
     return $sce.trustAs('html', text);
   }
 
   function formatMarkdown (text) {
-    return $marked(text) ;
+    
+    var result = marked(text) ;
+    return result ;
   }
   
   function utf16Encode(input) {

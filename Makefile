@@ -19,6 +19,9 @@ bump:
 build:
 	./node_modules/gulp/bin/gulp.js build
 
+less:
+	./node_modules/gulp/bin/gulp.js less
+
 txinstall:
 	curl -O https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py
 	sudo python get-pip.py

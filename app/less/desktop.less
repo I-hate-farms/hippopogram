@@ -1,22 +1,27 @@
 @import "lib/mixins";
+@import "colors.less" ;
 
-@header_color: #497799 ;
+
+// @header_color:  #497799 ;
 
 @submit_hover_color: #3589c5 ;
 @submit_color: #499dd9 ;
 
-@dropdow-menu-color: #42749b ;
+// @dropdow-menu-color: #42749b ;
+@dropdow-menu-color: desaturate(@header_color, 20%) ;
 @cancel-hover-color: #44a1e8 ;
 @icon-message-status-background-color: #4eabf1 ;
-@dropdown-menu-color-2: #52719a ;
 
-@head-background-color: #5682a3 ;
-@active-contact-background-color: #6490b1 ;
+// @dropdown-menu-color-2: #52719a ;
+@dropdown-menu-color-2: @dropdow-menu-color ;
+
 @composer-focus-shadow-color:#77b7e4;
 
-@footer-link-active-color: #8499aa ;
-@message-selected-color: #899daf ;
+// @footer-link-active-color: #8499aa ;
+// @message-selected-color: #899daf ;
 
+@footer-link-active-color: desaturate(@header_color, 80%) ; ;
+@message-selected-color: desaturate(@header_color, 80%) ; ;
 /* app desktop css */
 
 .tg_head {

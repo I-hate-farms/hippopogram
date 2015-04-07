@@ -1,5 +1,5 @@
 @import "lib/mixins";
-
+@import "colors.less" ;
 /* app common css */
 
 html {
@@ -150,7 +150,7 @@ input[type="number"] {
 
 .btn-primary {
   color: #ffffff;
-  background-color: #6490b1;
+  background-color: @active-contact-background-color;
   border-radius: 3px;
 
   &:hover,
@@ -822,7 +822,7 @@ a.tg_radio_on:hover i.icon-radio {
 
 /* Login page */
 .login_head_bg {
-  background: #5682a3;
+  background: @head-background-color;
   height: 226px;
 }
 .login_page {
@@ -1108,7 +1108,7 @@ i.icon-search-clear {
 
   &.active {
     color: #fff;
-    background: #6490b1;
+    background: @active-contact-background-color;
   }
 
   &:first-child {
@@ -1160,11 +1160,11 @@ i.icon-search-clear {
   .active {
     a.im_dialog {
       border-radius: 0;
-      background-color: #6490b1;
+      background-color: @active-contact-background-color;
 
       &:hover,
       &_selected {
-        background-color: #6490b1;
+        background-color: @active-contact-background-color;
       }
     }
   }
@@ -1547,7 +1547,7 @@ div.im_message_video_thumb {
 }
 
 .im_message_file_button_dl_audio {
-  background: #6490b1;
+  background: @active-contact-background-color;
   border-radius: 50%;
 
   .im_message_file_button_icon {
@@ -1687,7 +1687,7 @@ img.im_message_document_thumb {
     }
 
     .tg_slider_track_fill {
-      background: #6490b1;
+      background: @active-contact-background-color;
       height: 4px;
       width: 0;
     }
@@ -1715,7 +1715,7 @@ img.im_message_document_thumb {
 
   .tg_slider_thumb {
     display: none;
-    background: #6490b1;
+    background: @active-contact-background-color;
     width: 4px;
     height: 10px;
     line-height: 16px;
@@ -1736,7 +1736,7 @@ img.im_message_document_thumb {
   }
 
   .tg_slider_track_fill {
-    background: #6490b1;
+    background: @active-contact-background-color;
     height: 4px;
     width: 0;
   }

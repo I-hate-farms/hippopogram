@@ -40,5 +40,17 @@ config(['$locationProvider', '$routeProvider', '$compileProvider', 'StorageProvi
   $routeProvider.when('/im', {templateUrl: templateUrl('im'), controller: 'AppIMController', reloadOnSearch: false});
   $routeProvider.otherwise({redirectTo: '/'});
 
-  markedProvider.setOptions({gfm: true});
+  markedProvider.setOptions({
+    renderer: new marked.Renderer(),
+    gfm: true,
+    tables: true,
+    breaks: true,
+    pedantic: false,
+    //sanitize: true,
+    smartLists: true,
+    smartypants: false,
+    highlight: function (code) {
+        return hljs.highlightAuto(code).value;
+      }
+  });
 }]);
