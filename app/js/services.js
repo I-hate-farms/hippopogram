@@ -4068,12 +4068,14 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
         }
       }
       else if (match[7]) { // New line
-        /*if (!options.noLinebreaks) {
-          html.push('<br/>');
+        html.push(match[7]);
+        /*
+        if (!options.noLinebreaks) {
+          html.push(match[7]);
+          //html.push('<br/>');
         } else {
           html.push(' ');
         }*/
-         html.push(match[7]);
       }
       else if (match[8]) { // Emojis
          if ((emojiCode = emojiMap[match[8]]) &&
@@ -4131,6 +4133,11 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     text = html.join('') ; // formatMarkdown (html.join('')) ;
     // console.log(3, text, html);
     text = formatMarkdown (text) ; 
+    // Remove enclosing <p></p>
+    // See https://github.com/chjj/marked/issues/576
+    if( text.indexOf ("<p>") == 0) {
+      text = text.substr (3, text.length-8) ;
+    }
     // HACK escape the script tag
     text = text.replace(/<script>/g, '&lt;script&gt;').
     replace(/<\/script>/g, '&lt;/script&gt;') ;
