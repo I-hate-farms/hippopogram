@@ -3,6 +3,12 @@
 
    Prepending 'only screen and ' to each media query breaks nested media queries */
 /* app desktop css */
+.markdown_guide {
+  margin-right: 162px;
+}
+.markdown_guide a {
+  font-size: x-small;
+}
 .tg_head_split {
   max-width: 1010px;
   margin: 0 auto;
