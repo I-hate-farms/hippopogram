@@ -858,7 +858,7 @@ angular.module('myApp.controllers', ['myApp.i18n'])
 
   })
 
-  .controller('AppImHistoryController', function ($scope, $location, $timeout, $rootScope, MtpApiManager, AppUsersManager, AppChatsManager, AppMessagesManager, AppPeersManager, ApiUpdatesManager, PeersSelectService, IdleManager, StatusManager, ErrorService) {
+  .controller('AppImHistoryController', function ($scope, $location, $timeout, $rootScope, MtpApiManager, AppUsersManager, AppChatsManager, AppMessagesManager, AppPeersManager, ApiUpdatesManager, PeersSelectService, IdleManager, StatusManager, ErrorService, RichTextProcessor) {
 
     $scope.$watch('curDialog', applyDialogSelect);
 
@@ -875,6 +875,18 @@ angular.module('myApp.controllers', ['myApp.i18n'])
     $scope.state = {};
 
     $scope.toggleMessage = toggleMessage;
+    $scope.confirmEdit = function(historyMessage) {
+      historyMessage.inEdit = false;
+
+      if (historyMessage.message && historyMessage.message.length)
+        historyMessage.richMessage = RichTextProcessor.wrapRichText(historyMessage.message, {});
+
+      // TODO send historyMessage.richMessage to server
+
+      // that's what we'd like to do, however it belongs to AppImSendController
+      // $scope.draftMessage.text = historyMessage.message + ' *edit: ' + historyMessage.id;
+      // sendMessage(e);
+    };
     $scope.selectedDelete = selectedDelete;
     $scope.selectedForward = selectedForward;
     $scope.selectedReply = selectedReply;
@@ -1357,14 +1369,39 @@ angular.module('myApp.controllers', ['myApp.i18n'])
     }
     
     function selectedEdit () {
-      if ($scope.selectedCount == 1) {
-        var selectedMessageID;
-        angular.forEach($scope.selectedMsgs, function (t, messageID) {
-          selectedMessageID = messageID;
-        });
-        selectedCancel();
-        $scope.$broadcast('reply_edited', selectedMessageID);
+      if ($scope.selectedCount != 1)
+        return;
+
+      console.log($scope.selectedMsgs);
+      var messageID = Object.keys($scope.selectedMsgs)[0];
+      console.log(messageID, $scope);
+      var peer = $scope.peerHistories.filter(function(peer) {
+        console.log(peer, peer.ID, $scope.$parent.historyPeer.id);
+        return peer.peerID == $scope.$parent.historyPeer.id;
+      })[0];
+
+      console.log(peer);
+      if (!peer) {
+        return selectedCancel();
       }
+
+      var message;
+      for (var i = 0; i < peer.messages.length; i++) {
+        if (peer.messages[i].id == messageID) {
+          message = peer.messages[i];
+          break;
+        }
+      }
+
+      if (!message) {
+        return selectedCancel();
+      }
+
+      console.log($scope, message);
+      message.inEdit = true;
+
+      selectedCancel();
+      // $scope.$broadcast('reply_edited', selectedMessageID);
     }
 
     function toggleEdit () {

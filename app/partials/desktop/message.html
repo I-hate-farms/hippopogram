@@ -67,7 +67,13 @@
 
         </div>
 
-        <div class="im_message_text" ng-if="::historyMessage.message.length || false" ng-bind-html="::historyMessage.richMessage" dir="auto"></div>
+        <div ng-show="!historyMessage.inEdit" class="im_message_text" ng-if="::historyMessage.message.length || false" ng-bind-html="historyMessage.richMessage" dir="auto"></div>
+        <div ng-show="historyMessage.inEdit" class="input-group">
+          <textarea rows="6" class="form-control" ng-model="historyMessage.message"></textarea>
+          <div class="input-group-btn">
+            <button ng-click="confirmEdit(historyMessage)" class="btn btn-primary">Edit</button>
+          </div>
+        </div>
         <div class="im_message_external_embed_wrap" ng-if="::historyMessage.richUrlEmbed || false" my-external-embed="historyMessage.richUrlEmbed"></div>
       </div>
 
