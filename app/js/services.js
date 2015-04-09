@@ -3867,11 +3867,12 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     
     // Tongue sticking out, cheeky/playful,[4] blowing a raspberry
     // Removed because conflicts with common English words: 'xp', 'XP' like expected
-    { asciis: ['>:P', ':-P', ':P', 'X-P', 'x-p', ':-p', ':p', '=p', ':-Þ', ':Þ', ':þ', ':-þ', ':-b', ':b', 'd:'], unicode: 0x1F60B},
+    // Removed 'd:' because conflicts like found:
+    { asciis: ['>:P', ':-P', ':P', 'X-P', 'x-p', ':-p', ':p', '=p', ':-Þ', ':Þ', ':þ', ':-þ', ':-b', ':b'], unicode: 0x1F60B},
     
     // Skeptical, annoyed, undecided, uneasy, hesitant[4]
     // Removed because conflicts with http:// ':/'
-    { asciis: [ '>:\\', '>:/', ,':-/', ':-.', ':\\', '=/', '=\\', ':L', '=L', ':S', '>.<'], unicode: 0x1F614},
+    { asciis: [ '>:\\', '>:/', ':-/', ':-.', ':\\', '=/', '=\\', ':L', '=L', ':S', '>.<'], unicode: 0x1F614},
 
     //    Straight face[5] no expression, indecision[8]
     { asciis: [':|', ':-|'], unicode: 0x1F61E},
@@ -3915,10 +3916,21 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
 
   ] ;
 
+  function escapeRegExp(str) {
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+  }
+
   // Compute the proper strings from the unicode code point
   for (var i= 0 ; i < oldSchoolEmojisMap.length ; i++ ) {
     var row = oldSchoolEmojisMap[i] ;
     row.unicode = utf16Encode([row.unicode]) ;
+    /*console.log ("MOO") ;
+    /*for (var j = 0 ; j < row.asciis.length ; j++ ) {
+      if(row.asciis[j])
+        row.asciis[j] = escapeRegExp(row.asciis[j]) ;
+      else 
+        console.log ("error "+ i + " " + j) ;
+    }*/
   }
 
   return {
@@ -4161,6 +4173,10 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
       var row = oldSchoolEmojisMap[i] ;
       for (var j = 0 ; j < row.asciis.length ; j++ ) {
         text = text.replace (row.asciis[j], row.unicode) ;
+        /*if ( !(text === result) ) {
+          console.log ("REPLACED '" + text + "' for "+ i + " " + j + ". Result: '"+result+"'. ascii: "+row.asciis[j] ) ;
+        }
+        text = result ; */
       }
     }
     return text ;
