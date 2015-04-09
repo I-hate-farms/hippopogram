@@ -3866,10 +3866,12 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     { asciis: [';-)', ';)', '*-)', '*)', ';-]', ';]', ';D', ';^)', ':-,'], unicode: 0x1F609},
     
     // Tongue sticking out, cheeky/playful,[4] blowing a raspberry
-    { asciis: ['>:P', ':-P', ':P', 'X-P', 'x-p', 'xp', 'XP', ':-p', ':p', '=p', ':-Þ', ':Þ', ':þ', ':-þ', ':-b', ':b', 'd:'], unicode: 0x1F60B},
+    // Removed because conflicts with common English words: 'xp', 'XP' like expected
+    { asciis: ['>:P', ':-P', ':P', 'X-P', 'x-p', ':-p', ':p', '=p', ':-Þ', ':Þ', ':þ', ':-þ', ':-b', ':b', 'd:'], unicode: 0x1F60B},
     
     // Skeptical, annoyed, undecided, uneasy, hesitant[4]
-    { asciis: [ '>:\\', '>:/', ,':-/', ':-.', ':/', ':\\', '=/', '=\\', ':L', '=L', ':S', '>.<'], unicode: 0x1F614},
+    // Removed because conflicts with http:// ':/'
+    { asciis: [ '>:\\', '>:/', ,':-/', ':-.', ':\\', '=/', '=\\', ':L', '=L', ':S', '>.<'], unicode: 0x1F614},
 
     //    Straight face[5] no expression, indecision[8]
     { asciis: [':|', ':-|'], unicode: 0x1F61E},
@@ -3913,6 +3915,12 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
 
   ] ;
 
+  // Compute the proper strings from the unicode code point
+  for (var i= 0 ; i < oldSchoolEmojisMap.length ; i++ ) {
+    var row = oldSchoolEmojisMap[i] ;
+    row.unicode = utf16Encode([row.unicode]) ;
+  }
+
   return {
     wrapRichText: wrapRichText,
     wrapPlainText: wrapPlainText
@@ -3933,6 +3941,17 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     return null;
   }
 
+  function encodeEntitiesSoft(value) {
+    return value ; 
+    /*return value.
+      replace(/&/g, '&amp;').
+      replace(/([^\#-~| |!])/g, function (value) { // non-alphanumeric
+        return '&#' + value.charCodeAt(0) + ';';
+      });*/ 
+      /*return value.replace(/</g, '&lt;').
+      replace(/>/g, '&gt;');*/
+  }
+
   function wrapRichText(text, options) {
     if (!text || !text.length) {
       return '';
@@ -3950,11 +3969,11 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
 
     // var start = tsNow();
     raw = replaceOldSchoolWesternEmojis (raw) ;
-
-
-
+    //text = raw ; 
+    var original = text ; 
+    // BAD raw = formatMarkdown (raw) ;
     while ((match = raw.match(regExp))) {
-      html.push(encodeEntities(raw.substr(0, match.index)));
+      html.push(encodeEntitiesSoft(raw.substr(0, match.index)));
 
       if (match[3]) { // telegram.me links
         if (!options.noLinks) {
@@ -3969,13 +3988,13 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
             '<a ' + attr + ' href="#/im?p=',
             encodeURIComponent('@' + match[3]),
             '">',
-            encodeEntities(match[2] + match[3]),
+            encodeEntitiesSoft(match[2] + match[3]),
             '</a>'
           );
         } else {
           html.push(
             match[1],
-            encodeEntities(match[2] + match[3])
+            encodeEntitiesSoft(match[2] + match[3])
           );
         }
       }
@@ -3984,9 +4003,9 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
           if (emailRegex.test(match[4])) {
             html.push(
               '<a href="',
-              encodeEntities('mailto:' + match[4]),
+              encodeEntitiesSoft('mailto:' + match[4]),
               '" target="_blank">',
-              encodeEntities(match[4]),
+              encodeEntitiesSoft(match[4]),
               '</a>'
             );
           } else {
@@ -4017,9 +4036,9 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
             if (url) {
               html.push(
                 '<a href="',
-                encodeEntities(url),
+                encodeEntitiesSoft(url),
                 '" target="_blank">',
-                encodeEntities(match[4]),
+                encodeEntitiesSoft(match[4]),
                 '</a>',
                 excluded
               );
@@ -4029,25 +4048,26 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
                 options.extractedUrlEmbed = findExternalEmbed(url);
               }
             } else {
-              html.push(encodeEntities(match[0]));
+              html.push(encodeEntitiesSoft(match[0]));
             }
           }
         } else {
-          html.push(encodeEntities(match[0]));
+          html.push(encodeEntitiesSoft(match[0]));
         }
       }
       else if (match[7]) { // New line
-        if (!options.noLinebreaks) {
+        /*if (!options.noLinebreaks) {
           html.push('<br/>');
         } else {
           html.push(' ');
-        }
+        }*/
+         html.push(match[7]);
       }
-      else if (match[8]) {
-        if ((emojiCode = emojiMap[match[8]]) &&
+      else if (match[8]) { // Emojis
+         if ((emojiCode = emojiMap[match[8]]) &&
             (emojiCoords = getEmojiSpritesheetCoords(emojiCode))) {
 
-          emojiTitle = encodeEntities(emojiData[emojiCode][1][0]);
+          emojiTitle = encodeEntitiesSoft(emojiData[emojiCode][1][0]);
           emojiFound = true;
           html.push(
             '<span class="emoji emoji-',
@@ -4061,30 +4081,31 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
             ':', emojiTitle, ':</span>'
           );
         } else {
-          html.push(encodeEntities(match[8]));
+          html.push(encodeEntitiesSoft(match[8]));
         }
       }
       else if (match[10]) {
         if (!options.noLinks) {
           html.push(
-            encodeEntities(match[9]),
+            encodeEntitiesSoft(match[9]),
             '<a href="#/im?q=',
             encodeURIComponent(match[10]),
             '">',
-            encodeEntities(match[10]),
+            encodeEntitiesSoft(match[10]),
             '</a>'
           );
         } else {
           html.push(
-            encodeEntities(match[9]),
-            encodeEntities(match[10])
+            encodeEntitiesSoft(match[9]),
+            encodeEntitiesSoft(match[10])
           );
         }
       }
       raw = raw.substr(match.index + match[0].length);
     }
-    var encoded = encodeEntities(raw) ;
-    // encoded = formatMarkdown (encoded) ;    
+    // BAD raw = formatMarkdown (raw) ;
+    var encoded = encodeEntitiesSoft(raw) ;
+    //encoded = formatMarkdown (encoded) ;    
     html.push(encoded);
 
     // var timeDiff = tsNow() - start;
@@ -4092,10 +4113,17 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     //   console.log(dT(), 'wrap text', text.length, timeDiff);
     // }
 
-    text = $sanitize(html.join(''));
-    text = formatMarkdown (text) ; 
+    //text = $sanitize(html.join(''));
+    // We use marked sanitizer
+    //text = formatMarkdown (html.join('')) ; 
+    text = html.join('') ; // formatMarkdown (html.join('')) ;
     // console.log(3, text, html);
+    text = formatMarkdown (text) ; 
+    // HACK escape the script tag
+    text = text.replace(/<script>/g, '&lt;script&gt;').
+    replace(/<\/script>/g, '&lt;/script&gt;') ;
 
+    text = $sanitize(text);
     if (emojiFound) {
       text = text.replace(/\ufe0f|&#65039;/g, '', text);
       text = text.replace(/<span class="emoji emoji-(\d)-(\d+)-(\d+)"(.+?)<\/span>/g,
@@ -4132,14 +4160,10 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     for (var i= 0 ; i < oldSchoolEmojisMap.length ; i++ ) {
       var row = oldSchoolEmojisMap[i] ;
       for (var j = 0 ; j < row.asciis.length ; j++ ) {
-        //text = text.replace (row.asciis[j], String.fromCharCode(row.unicode)) ;
-        // text = text.replace (row.asciis[j], (row.unicode)) ;
-        var point = utf16Encode([row.unicode]) ;
-        text = text.replace (row.asciis[j], point) ;
+        text = text.replace (row.asciis[j], row.unicode) ;
       }
     }
     return text ;
-
   }
 
   function checkBrackets(url) {

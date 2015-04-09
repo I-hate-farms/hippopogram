@@ -478,7 +478,7 @@ MessageComposer.prototype.setUpRich = function () {
   this.richTextareaEl = $('<div class="composer_rich_textarea" contenteditable="true" dir="auto"></div>');
 
   this.textareaEl[0].parentNode.insertBefore(this.richTextareaEl[0], this.textareaEl[0]);
-  
+
   this.richTextareaEl.on('keyup keydown', this.onKeyEvent.bind(this));
   this.richTextareaEl.on('focus blur', this.onFocusBlur.bind(this));
   this.richTextareaEl.on('paste', this.onRichPaste.bind(this));

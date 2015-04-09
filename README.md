@@ -24,4 +24,9 @@ node server.js
 
 open http://localhost:8000/app/index.html
 
+## How to run 
+```
+make dev
+```
+
 ## How to publish 

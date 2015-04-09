@@ -13,11 +13,18 @@ publish:
 	echo -n "Please open http://localhost:8000/dist/index.html and check if everything works fine." 
 	cd dist && git add --all . && git commit -am "merged with master" && git push origin gh-pages
 
+local_publish:
+	./node_modules/gulp/bin/gulp.js clean
+	./node_modules/gulp/bin/gulp.js publish
+
 bump:
 	./node_modules/gulp/bin/gulp.js bump
 
 build:
 	./node_modules/gulp/bin/gulp.js build
+
+dev:
+	./node_modules/gulp/bin/gulp.js watch
 
 less:
 	./node_modules/gulp/bin/gulp.js less

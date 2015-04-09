@@ -254,12 +254,7 @@ gulp.task('build', function(callback) {
     ['copy', 'copy-locales', 'copy-images', 'disable-production'],
     callback
   );
-  /*runSequence(
-    'less',
-    'usemin',
-    ['copy', 'copy-locales', 'copy-images', 'disable-production'],
-    callback
-  );*/
+
 });
 
 gulp.task('package', ['cleanup-dist']);
