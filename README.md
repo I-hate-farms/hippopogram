@@ -4,7 +4,7 @@
 
 For more information about webogram, read the [original documentation](README-ori.md)
 
-## Features: 
+## Added features
 ### [support markdown](https://github.com/I-hate-farms/hippopogram/issues/2) syntax 
 Using [marked](https://github.com/chjj/marked)
 
