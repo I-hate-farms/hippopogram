@@ -5,12 +5,17 @@
 More information on the [original application](README-ori.md)
 
 ## Features: 
-  - [x] [support markdown](https://github.com/I-hate-farms/hippopogram/issues/2) syntax using [marked](https://github.com/chjj/marked)
-  ![sample](doc/markdown.png)
-  - [x] [replace old school western emoticons](https://github.com/I-hate-farms/hippopogram/issues/1) like :) with unicode modern ones :smile:
-  ![sample](doc/emoticons.png) 
-  - [ ] enable sent message editing *planned*
-  - [ ] better link management (link to images, imgur, etc) *planned*
+### [support markdown](https://github.com/I-hate-farms/hippopogram/issues/2) syntax 
+Using [marked](https://github.com/chjj/marked)
+![sample](doc/markdown.png)
+
+### [replace old school western emoticons](https://github.com/I-hate-farms/hippopogram/issues/1) 
+Replace text emoticons like :) with unicode modern ones :smile:
+![sample](doc/emoticons.png) 
+
+### TODO
+- [ ] enable [sent message editing](https://github.com/I-hate-farms/hippopogram/issues/3)
+- [ ] better link management (link to images, imgur, etc) 
 
 For more information about webogram, read the [original documentation](README-ori.md)
 
