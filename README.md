@@ -5,8 +5,10 @@
 More information on the [original application](README-ori.md)
 
 ## Features: 
-  - [x] support markdown syntax using [marked](https://github.com/chjj/marked)
-  - [x] replace text emoticons :) :-o with images ones :smile: 
+  - [x] [support markdown](https://github.com/I-hate-farms/hippopogram/issues/2) syntax using [marked](https://github.com/chjj/marked)
+  ![sample](doc/markdown.png)
+  - [x] [replace old school western emoticons](https://github.com/I-hate-farms/hippopogram/issues/1) like :) with unicode modern ones :smile:
+  ![sample](doc/emoticons.png) 
   - [ ] enable sent message editing *planned*
   - [ ] better link management (link to images, imgur, etc) *planned*
 
