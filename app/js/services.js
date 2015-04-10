@@ -4093,9 +4093,7 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
               
               var isImage = endsWith (myUrl, '.png') || endsWith (myUrl, '.jpg') || 
                 endsWith (myUrl, '.jpeg') || endsWith (myUrl, '.gif') || endsWith (myUrl, '.webp') ;
-              console.log ("'" + myUrl + "' is image: " + isImage) ;
               if( isImage) {
-                console.log ("PUSH") ;
                 /*html.push(
                     '<img src="',
                     myUrl,
