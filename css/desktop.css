@@ -10,6 +10,10 @@
 .markdown_guide a {
   font-size: x-small;
 }
+blockquote {
+  font-size: 13px;
+  background-color: #f7f7f7;
+}
 .tg_head_split {
   max-width: 1010px;
   margin: 0 auto;
