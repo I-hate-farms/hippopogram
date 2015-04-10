@@ -121,6 +121,9 @@
 
                   <div class="im_history_typing_wrap">
 
+                    <div class="markdown_guide" align="right" ng-hide="historyState.selectActions"> 
+                      <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">markdown guide</a>
+                    </div>
                     <div class="im_history_typing" ng-show="historyState.typing.length > 0 &amp;&amp; !historyFilter.mediaType" ng-switch="historyState.typing.length" my-i18n>
                       <span ng-switch-when="1" my-i18n-format="im_one_typing"></span>
                       <span ng-switch-when="2" my-i18n-format="im_two_typing"></span>
@@ -137,9 +140,6 @@
             </div>
 
           </div>
-              <div class="markdown_guide" align="right"> 
-                <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">markdown guide</a>
-              </div>
 
           <div class="im_bottom_panel_wrap">
 
