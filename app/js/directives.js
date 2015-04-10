@@ -191,6 +191,10 @@ angular.module('myApp.directives', ['myApp.filters'])
       var callback = false;
       var needTwitter = false;
       switch (embedData[0]) {
+        case 'image':
+          var src = embedData[1];
+          html = '<img src="' + src + '" class="embedded_image"></img>';
+          break;        
         case 'youtube':
           var videoID = embedData[1];
           html = '<div class="im_message_media_embed im_message_video_embed"><' + embedTag + ' type="text/html" frameborder="0" ' +

@@ -3833,7 +3833,8 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     { regexes: [], asciis: [':-)', ':)', ':D', ':o)', ':]', ':3', ':c)', ':>', '=]', '8)', '=)', ':}', ':^)', ':っ)'], unicode: 0x1F60A},
     
     // Laughing,[4] big grin,[5][6] laugh with glasses[7]
-    { regexes: [], asciis: [':-D', '8-D', '8D', 'x-D', 'xD', 'X-D', 'XD', '=-D', '=D', '=-3', '=3', 'B^D'], unicode: 0x1F601},
+    // Removed '=3' conflicts
+    { regexes: [], asciis: [':-D', '8-D', '8D', 'x-D', 'xD', 'X-D', 'XD', '=-D', '=D', '=-3', 'B^D'], unicode: 0x1F601},
     
     //Very happy or double chin[7]
     { regexes: [], asciis: [':-))'], unicode: 0x1F604},
@@ -3982,7 +3983,11 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     else
       return value ; 
   }
-   
+  
+  function endsWith (text, suffix) {
+    return text.indexOf(suffix, text.length - suffix.length) !== -1;
+  }
+  
   var match,
         raw = text,
         html = [],
@@ -4077,6 +4082,30 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
                 '</a>',
                 excluded
               );*/
+              //html.push(encodeEntitiesSoft(url));
+              
+              // Add the <img> if the url is an image 
+              var myUrl = match[4] ;
+              // marked has reformatted url as <a> links
+              var index = myUrl.indexOf ('">') ;
+              if( index != -1 ) 
+                myUrl = myUrl.substr (0, index) ;
+              
+              var isImage = endsWith (myUrl, '.png') || endsWith (myUrl, '.jpg') || 
+                endsWith (myUrl, '.jpeg') || endsWith (myUrl, '.gif') || endsWith (myUrl, '.webp') ;
+              console.log ("'" + myUrl + "' is image: " + isImage) ;
+              if( isImage) {
+                console.log ("PUSH") ;
+                /*html.push(
+                    '<img src="',
+                    myUrl,
+                    '" class="embedded_image">',
+                    '</img>');*/
+                if (options.extractUrlEmbed &&
+                  !options.extractedUrlEmbed) {
+                  options.extractedUrlEmbed = ['image', myUrl];
+                }
+              } 
               html.push(encodeEntitiesSoft(url));
               if (options.extractUrlEmbed &&
                   !options.extractedUrlEmbed) {

@@ -17,9 +17,13 @@ Replace text emoticons like :) with unicode modern ones :smile:
 
 ![sample](doc/emoticons.png) 
 
-### TODO
+### Embed simple image links
+if a link ending in `png`, `jpg`, `jpeg` or `webp` is posted, a preview is diplayed
+
+![sample](doc/images.png) 
+
+## TODO
 - [ ] enable [sent message editing](https://github.com/I-hate-farms/hippopogram/issues/3)
-- [ ] better link management (link to images, imgur, etc) 
 
 ## How to run 
 
