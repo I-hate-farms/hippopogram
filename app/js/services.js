@@ -3868,7 +3868,8 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     // Tongue sticking out, cheeky/playful,[4] blowing a raspberry
     // Removed because conflicts with common English words: 'xp', 'XP' like expected
     // Removed 'd:' because conflicts like found:
-    { regexes: [], asciis: ['>:P', ':-P', ':P', 'X-P', 'x-p', ':-p', ':p', '=p', ':-Þ', ':Þ', ':þ', ':-þ', ':-b', ':b'], unicode: 0x1F60B},
+    // Removed '=p'  conflicts with http://www.dj-51.com/?ref=producthunt#app1 
+    { regexes: [], asciis: ['>:P', ':-P', ':P', 'X-P', 'x-p', ':-p', ':p', ':-Þ', ':Þ', ':þ', ':-þ', ':-b', ':b'], unicode: 0x1F60B},
     
     // Skeptical, annoyed, undecided, uneasy, hesitant[4]
     // Removed because conflicts with http:// ':/'
@@ -3925,8 +3926,11 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     var row = oldSchoolEmojisMap[i] ;
     row.unicode = utf16Encode([row.unicode]) ;
     for (var j = 0 ; j < row.asciis.length ; j++ ) {
-      if(row.asciis[j])
-        row.regexes.push(new RegExp (escapeRegExp(row.asciis[j]), 'g'));
+      if(row.asciis[j]){
+        // Whole word only, including start or beginning
+        var reg = row.asciis[j]; 
+        row.regexes.push(new RegExp (escapeRegExp(reg), 'g'));
+      }
     }
     /*console.log ("MOO") ;
     for (var j = 0 ; j < row.asciis.length ; j++ ) {
@@ -3957,25 +3961,29 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     return null;
   }
 
-  function encodeEntitiesSoft(value) {
-    return value ; 
-    /*return value.
-      replace(/&/g, '&amp;').
-      replace(/([^\#-~| |!])/g, function (value) { // non-alphanumeric
-        return '&#' + value.charCodeAt(0) + ';';
-      });*/ 
-      /*return value.replace(/</g, '&lt;').
-      replace(/>/g, '&gt;');*/
-  }
-
   function wrapRichText(text, options) {
     if (!text || !text.length) {
       return '';
     }
 
-    options = options || {};
+  options = options || {};
 
-    var match,
+  function encodeEntitiesSoft(value) {
+    
+    if (options.noLinebreaks) {
+      return value.
+        replace(/&/g, '&amp;').
+        replace(/([^\#-~| |!])/g, function (value) { // non-alphanumeric
+          return '&#' + value.charCodeAt(0) + ';';
+        }).
+        replace(/</g, '&lt;').
+        replace(/>/g, '&gt;');
+    }
+    else
+      return value ; 
+  }
+   
+  var match,
         raw = text,
         html = [],
         url,
@@ -3986,7 +3994,17 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     // var start = tsNow();
     raw = replaceOldSchoolWesternEmojis (raw) ;
     //text = raw ; 
-    var original = text ; 
+    // var original = text ;
+
+    if (!options.noLinebreaks) {
+      raw = formatMarkdown (raw) ; 
+      // text = text.replace('\\n', '<br/>');
+      // Remove enclosing <p></p>
+      // See https://github.com/chjj/marked/issues/576
+      /*if( text.indexOf ('<p>') == 0) {
+        text = text.substr (3, text.length-8) ;
+      }*/
+    } 
     // BAD raw = formatMarkdown (raw) ;
     while ((match = raw.match(regExp))) {
       html.push(encodeEntitiesSoft(raw.substr(0, match.index)));
@@ -4024,6 +4042,7 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
               encodeEntitiesSoft(match[4]),
               '</a>'
             );
+            //html.push(encodeEntitiesSoft(match[4])) ;
           } else {
             var url = false,
                 protocol = match[5],
@@ -4050,15 +4069,15 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
             }
 
             if (url) {
-              html.push(
+              /*html.push(
                 '<a href="',
                 encodeEntitiesSoft(url),
                 '" target="_blank">',
                 encodeEntitiesSoft(match[4]),
                 '</a>',
                 excluded
-              );
-
+              );*/
+              html.push(encodeEntitiesSoft(url));
               if (options.extractUrlEmbed &&
                   !options.extractedUrlEmbed) {
                 options.extractedUrlEmbed = findExternalEmbed(url);
@@ -4134,20 +4153,21 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     //text = formatMarkdown (html.join('')) ; 
     text = html.join('') ; // formatMarkdown (html.join('')) ;
     // console.log(3, text, html);
-    if (!options.noLinebreaks) {
-      text = formatMarkdown (text) ; 
+    if (options.noLinebreaks) {
+      // text = formatMarkdown (text) ; 
       // text = text.replace('\\n', '<br/>');
       // Remove enclosing <p></p>
       // See https://github.com/chjj/marked/issues/576
-      if( text.indexOf ('<p>') == 0) {
+      /*if( text.indexOf ('<p>') == 0) {
         text = text.substr (3, text.length-8) ;
-      }
+      }*/
+      text = $sanitize(text);
     }
     // HACK escape the script tag
-    text = text.replace(/<script>/g, '&lt;script&gt;').
-    replace(/<\/script>/g, '&lt;/script&gt;') ;
+    //text = text.replace(/<script>/g, '&lt;script&gt;').
+    //replace(/<\/script>/g, '&lt;/script&gt;') ;
 
-    text = $sanitize(text);
+    //text = $sanitize(text);
     if (emojiFound) {
       text = text.replace(/\ufe0f|&#65039;/g, '', text);
       text = text.replace(/<span class="emoji emoji-(\d)-(\d+)-(\d+)"(.+?)<\/span>/g,
@@ -4160,6 +4180,7 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
   function formatMarkdown (text) {
     
     var result = marked(text) ;
+    //result = result.substr (3, result.length-8) ;
     return result ;
   }
   

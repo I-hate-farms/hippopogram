@@ -34,6 +34,11 @@
   }
 }
 
+blockquote {
+  font-size: @font-size ;
+  background-color: lighten(@app-background-color, 2%) ;
+}
+
 .tg_head {
   &_split {
     max-width: 1010px;
@@ -58,7 +63,7 @@
     font-weight: bold;
     padding: 16px 19px;
     color: #b9cfe3;
-    font-size: 13px;
+    font-size: @font-size;
     line-height: 16px;
 
     .dropdown.open &,
@@ -291,7 +296,7 @@
   &_text {
     color: #b9cfe3;
     padding: 14px 15px;
-    font-size: 13px;
+    font-size: @font-size;
     display: block;
     line-height: 20px;
     float: left;
@@ -341,7 +346,7 @@
     .dropdown-menu {
       & > li {
         & > a {
-          font-size: 13px;
+          font-size: @font-size;
           line-height: 15px;
           padding: 11px 18px 11px 18px;
           color: @dropdown-menu-color-2;
@@ -394,7 +399,7 @@
   &_media {
     padding: 14px 19px;
     color: #fff;
-    font-size: 13px;
+    font-size: @font-size;
     line-height: 20px;
     float: left;
     font-weight: bold;
@@ -868,7 +873,7 @@ a.footer_link.active:active {
 
   &_submit {
     color: @submit_color;
-    font-size: 13px;
+    font-size: @font-size;
     line-height: 18px;
     height: 18px;
     border-radius: 0;
@@ -1559,7 +1564,7 @@ a.im_panel_peer_photo .peer_initials {
     line-height: 1.428571429;
     color: #333333;
     white-space: nowrap;
-    font-size: 13px;
+    font-size: @font-size;
     overflow: hidden;
     position: relative;
 
@@ -1643,8 +1648,8 @@ a.im_panel_peer_photo .peer_initials {
       input {
         font-size: 12px;
         line-height: normal;
-        background: #f2f2f2;
-        border: 1px solid #f2f2f2;
+        background: @app-background-color;
+        border: 1px solid @app-background-color;
         border-radius: 0;
         padding: 6px 6px 6px 6px;
         margin-bottom: 0;
@@ -2107,7 +2112,7 @@ a.im_panel_peer_photo .peer_initials {
     max-width: 300px;
     margin: 0 auto;
     text-align: center;
-    font-size: 13px;
+    font-size: @font-size;
     font-weight: bold;
     line-height: 16px;
     padding: 24px 0;
@@ -2140,7 +2145,7 @@ a.im_panel_peer_photo .peer_initials {
   }
 
   div&_author_name {
-    font-size: 13px;
+    font-size: @font-size;
     margin-top: 1px;
     overflow: hidden;
     white-space: nowrap;

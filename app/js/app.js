@@ -40,13 +40,20 @@ config(['$locationProvider', '$routeProvider', '$compileProvider', 'StorageProvi
   $routeProvider.when('/im', {templateUrl: templateUrl('im'), controller: 'AppIMController', reloadOnSearch: false});
   $routeProvider.otherwise({redirectTo: '/'});
 
+  // Fixing the enclosing <p> issue 
+  // https://github.com/chjj/marked/issues/576
+  var markedRenderer = new marked.Renderer() ;
+  markedRenderer.paragraph = function(text) {
+    return text + '\n';
+  };
+
   markedProvider.setOptions({
-    renderer: new marked.Renderer(),
+    renderer: markedRenderer,
     gfm: true,
     tables: true,
     breaks: true,
     pedantic: false,
-    sanitize: false,
+    sanitize: true,
     smartLists: true,
     smartypants: false,
     highlight: function (code) {
