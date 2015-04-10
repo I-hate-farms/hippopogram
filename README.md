@@ -18,7 +18,7 @@ Replace text emoticons like :) with unicode modern ones :smile:
 ![sample](doc/emoticons.png) 
 
 ### Embed simple image links
-if a link ending in `png`, `jpg`, `jpeg` or `webp` is posted, a preview is diplayed
+A preview is displaysed for links ending in `png`, `jpg`, `jpeg` or `webp`.
 
 ![sample](doc/images.png) 
 
