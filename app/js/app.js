@@ -46,6 +46,8 @@ config(['$locationProvider', '$routeProvider', '$compileProvider', 'StorageProvi
   markedRenderer.paragraph = function(text) {
     return text + '\n';
   };
+  
+  // Add target='_blank to links'
   markedRenderer.link = function(href, title, text) {
     if (this.options.sanitize) {
       try {

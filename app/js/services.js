@@ -4188,7 +4188,12 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
       /*if( text.indexOf ('<p>') == 0) {
         text = text.substr (3, text.length-8) ;
       }*/
-      text = $sanitize(text);
+      try {
+        text = $sanitize(text);
+      } catch (err)
+      {
+          console.error ("Cannot sanitize text: '" + text + "'. Error: " + err.message) ;
+      }
     }
     // HACK escape the script tag
     //text = text.replace(/<script>/g, '&lt;script&gt;').
