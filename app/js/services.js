@@ -3999,7 +3999,7 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
     // var start = tsNow();
     raw = replaceOldSchoolWesternEmojis (raw) ;
     //text = raw ; 
-    // var original = text ;
+    var original = text ;
 
     if (!options.noLinebreaks) {
       raw = formatMarkdown (raw) ; 
@@ -4192,7 +4192,7 @@ angular.module('myApp.services', ['myApp.i18n', 'izhukov.utils'])
         text = $sanitize(text);
       } catch (err)
       {
-          console.error ("Cannot sanitize text: '" + text + "'. Error: " + err.message) ;
+          console.error ("Cannot sanitize text: '" + text + "'. Error: " + err.message + ". RAW: " + original) ;
       }
     }
     // HACK escape the script tag
